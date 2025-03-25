@@ -20,5 +20,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Docker Build and Push') {
+            steps {
+                withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
+                    sh 'printenv'
+                    sh 'docker build -t maazadhoni/numeric-app:$GIT_COMMIT .'  // Fixed build command
+                    sh 'docker push maazadhoni/numeric-app:$GIT_COMMIT'  // Fixed push command
+                }
+            }
+        }
     }
 }
