@@ -30,5 +30,14 @@ pipeline {
                 }
             }
         }
+
+        stage('Kubernetes Deployment DEV') {  // Fixed syntax error: changed "age" to "stage"
+            steps {
+                withKubeConfig([credentialsId: 'kubeconfig']) {  // Fixed syntax
+                    sh "sed -i 's#replace#maazadhoni/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
+                    sh "kubectl apply -f k8s_deployment_service.yaml"
+                }
+            }
+        }
     }
 }
